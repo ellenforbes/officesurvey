@@ -598,7 +598,8 @@
       <div class="privacy-note">
         Your response is <strong>anonymous</strong>. A session token and general browser info are logged alongside your answers to help distinguish responses — no personal identifying data is collected beyond what you write above.
       </div>
-      <button type="submit" class="submit-btn">
+      <!-- ── use this when configuring email submit in place of line below <button type="submit" class="submit-btn"> ── -->
+      <button type="button" class="submit-btn" onclick="handleSubmit()">
         &#9658;&nbsp; Submit Feedback
       </button>
       <div id="submitError" style="color:#f08080; font-size:.8rem; display:none;">
@@ -811,4 +812,5 @@
 
 </body>
 </html>
+
 

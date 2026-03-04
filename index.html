@@ -90,6 +90,7 @@
       line-height: 1.65;
     }
     .intro-panel strong { color: #fff; }
+    .intro-panel p + p { margin-top: 10px; }
 
     /* ── QUESTION CARD ──────────────────────────────────────────── */
     .q-card {
@@ -252,9 +253,6 @@
       color: #fff;
     }
 
-    /* ── REQUIRED INDICATOR ─────────────────────────────────────── */
-    .req { color: var(--red); margin-left: 3px; }
-
     /* ── VALIDATION ALERT ───────────────────────────────────────── */
     .val-msg {
       display: none;
@@ -376,26 +374,18 @@
 <div class="survey-wrap">
 
   <div class="intro-panel">
-    <strong>Thank you for visiting the new office space.</strong><br>
-    Your honest feedback will directly inform Pembroke Resources' decision. This survey takes approximately 3–4 minutes. All responses are treated confidentially. Fields marked <span style="color:var(--red)">*</span> are required.
+    <p>POD is reviewing our current office space, so thanks for your input and feedback into the process. Moving to a smaller office space would deliver a significant cost savings.</p>
+    <p>We have secured a business interested in taking over our tenancy on L32, 33, 34, and the landlord has proposed an alternative vacant office in this building on L25. Your honest feedback on this brief survey will be shared and considered in the overall decision made by SLT.</p>
+    <p style="margin-top:10px; color:var(--silver); font-size:.85rem;">This survey takes approximately 3–4 minutes. All responses are treated confidentially.</p>
   </div>
 
   <!-- Progress -->
   <div>
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
-    <div class="progress-label" id="progressLabel">0 of 7 answered</div>
+    <div class="progress-label" id="progressLabel">0 of 8 answered</div>
   </div>
 
   <!-- ══ FORM ══════════════════════════════════════════════════════════ -->
-  <!--
-    Using FormSubmit.co for email delivery.
-    Replace YOUR_FORM_ID below with your FormSubmit activation code after
-    first submission (or just use the email directly — FormSubmit will
-    send an activation email on first use).
-
-    TO UPGRADE TO DB: Replace action with your own API endpoint and change
-    method or use fetch() in the handleSubmit function below.
-  -->
   <form id="surveyForm"
         action="https://formsubmit.co/144c7b0e39d865d567a22ba4fac09381"
         method="POST">
@@ -404,7 +394,6 @@
     <input type="hidden" name="_subject" value="📋 Pembroke Office Feedback — New Submission">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
-    <!-- Disable next redirect so we handle it ourselves -->
     <input type="hidden" name="_next" value="about:blank">
 
     <!-- Metadata (set by JS) -->
@@ -419,8 +408,8 @@
 
       <!-- ── Q1: First Impressions ───────────────────────────────── -->
       <div class="q-card" id="q1card" data-q="q1">
-        <div class="q-number">Question 1 of 7</div>
-        <div class="q-text">First Impressions<span class="req">*</span></div>
+        <div class="q-number">Question 1 of 8</div>
+        <div class="q-text">First Impressions</div>
         <div class="q-sub">"What is your overall first impression of this new office space?"</div>
 
         <div class="star-row" id="starRow">
@@ -458,7 +447,7 @@
 
       <!-- ── Q2: Space & Capacity ─────────────────────────────────── -->
       <div class="q-card" id="q2card" data-q="q2">
-        <div class="q-number">Question 2 of 7 <em style="font-weight:400;letter-spacing:0;text-transform:none;font-family:Calibri,sans-serif;font-size:.68rem;color:var(--grey)">(optional)</em></div>
+        <div class="q-number">Question 2 of 8</div>
         <div class="q-text">Space &amp; Capacity</div>
         <div class="q-sub">"Do you feel this space has enough room to comfortably accommodate our team's day-to-day work?"</div>
         <div class="options-list" id="q2opts">
@@ -473,7 +462,7 @@
 
       <!-- ── Q3: Collaboration ────────────────────────────────────── -->
       <div class="q-card" id="q3card" data-q="q3">
-        <div class="q-number">Question 3 of 7 <em style="font-weight:400;letter-spacing:0;text-transform:none;font-family:Calibri,sans-serif;font-size:.68rem;color:var(--grey)">(optional)</em></div>
+        <div class="q-number">Question 3 of 8</div>
         <div class="q-text">Collaboration</div>
         <div class="q-sub">"How well does this space support team collaboration and meetings compared to our current office?"</div>
         <div class="options-list" id="q3opts">
@@ -488,7 +477,7 @@
 
       <!-- ── Q4: Focus Work ───────────────────────────────────────── -->
       <div class="q-card" id="q4card" data-q="q4">
-        <div class="q-number">Question 4 of 7 <em style="font-weight:400;letter-spacing:0;text-transform:none;font-family:Calibri,sans-serif;font-size:.68rem;color:var(--grey)">(optional)</em></div>
+        <div class="q-number">Question 4 of 8</div>
         <div class="q-text">Focus Work</div>
         <div class="q-sub">"Do you think this space provides adequate areas for quiet, focused individual work?"</div>
         <div class="options-list" id="q4opts">
@@ -500,11 +489,27 @@
         <div class="val-msg">Please select an option before continuing.</div>
       </div>
 
-      <!-- ── Q5: Improvements & Suggestions ──────────────────────── -->
+      <!-- ── Q5: Office Temperature (NEW) ────────────────────────── -->
+      <div class="q-card" id="q5card" data-q="q5">
+        <div class="q-number">Question 5 of 8</div>
+        <div class="q-text">Office Temperature</div>
+        <div class="q-sub">"Is office temperature important to you, and how did you find the temperature during your visit to L25?"</div>
+        <div class="options-list" id="q5opts">
+          <label class="opt-label"><input type="radio" name="q5_temperature" value="Too cold"><span class="opt-dot"></span>🥶&nbsp; Too cold</label>
+          <label class="opt-label"><input type="radio" name="q5_temperature" value="Slightly cold"><span class="opt-dot"></span>🌬️&nbsp; Slightly cold</label>
+          <label class="opt-label"><input type="radio" name="q5_temperature" value="Comfortable — nothing to note"><span class="opt-dot"></span>✅&nbsp; Comfortable — nothing to note</label>
+          <label class="opt-label"><input type="radio" name="q5_temperature" value="Slightly warm / hot"><span class="opt-dot"></span>☀️&nbsp; Slightly warm / hot</label>
+          <label class="opt-label"><input type="radio" name="q5_temperature" value="Too hot"><span class="opt-dot"></span>🥵&nbsp; Too hot</label>
+          <label class="opt-label"><input type="radio" name="q5_temperature" value="Temperature is not important to me"><span class="opt-dot"></span>😶&nbsp; Temperature is not important to me</label>
+        </div>
+        <div class="val-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- ── Q6: Improvements & Suggestions ──────────────────────── -->
       <div class="q-card" id="q6card" data-q="q6">
-        <div class="q-number">Question 5 of 7 <em style="font-weight:400;letter-spacing:0;text-transform:none;font-family:Calibri,sans-serif;font-size:.68rem;color:var(--grey)">(optional)</em></div>
+        <div class="q-number">Question 6 of 8</div>
         <div class="q-text">Improvements &amp; Suggestions</div>
-        <div class="q-sub">"If you identified any concerns or issues with this space, what improvements or changes do you think would help address them?" <em style="color:var(--grey)">(Optional)</em></div>
+        <div class="q-sub">"If you identified any concerns or issues with this space, what improvements or changes do you think would help address them?"</div>
         <textarea
           class="q-textarea"
           name="q6_improvements_suggestions"
@@ -522,11 +527,12 @@
           <span class="hint-chip" data-hint="Partitioning / privacy screens">Partitioning / privacy screens</span>
           <span class="hint-chip" data-hint="Hybrid working adjustments">Hybrid working adjustments</span>
         </div>
+        <div class="val-msg">Please share your thoughts before continuing.</div>
       </div>
 
-      <!-- ── Q6: Layout & Seating ─────────────────────────────────── -->
+      <!-- ── Q7: Layout & Seating ─────────────────────────────────── -->
       <div class="q-card" id="q_layoutcard" data-q="q_layout">
-        <div class="q-number">Question 6 of 7 <em style="font-weight:400;letter-spacing:0;text-transform:none;font-family:Calibri,sans-serif;font-size:.68rem;color:var(--grey)">(optional)</em></div>
+        <div class="q-number">Question 7 of 8</div>
         <div class="q-text">Office Layout &amp; Seating</div>
         <div class="q-sub">"Please review the proposed floor plan below and share any thoughts on the layout or seating arrangements."</div>
 
@@ -569,17 +575,18 @@
 
         <textarea
           class="q-textarea"
-          name="q6_layout_seating_comments"
+          name="q7_layout_seating_comments"
           id="q_layouttext"
           placeholder="e.g. seating arrangement works well, would prefer more natural light near desks, open plan may be too noisy…"
           rows="4"
         ></textarea>
+        <div class="val-msg">Please share your thoughts before continuing.</div>
       </div>
 
-      <!-- ── Q7: Overall Recommendation ──────────────────────────── -->
+      <!-- ── Q8: Overall Recommendation ──────────────────────────── -->
       <div class="q-card" id="q7card" data-q="q7">
-        <div class="q-number">Question 7 of 7</div>
-        <div class="q-text">Overall Recommendation<span class="req">*</span></div>
+        <div class="q-number">Question 8 of 8</div>
+        <div class="q-text">Overall Recommendation</div>
         <div class="q-sub">"Based on your visit today, would you support Pembroke Resources making this move?"</div>
         <div class="options-list" id="q7opts">
           <label class="opt-label"><input type="radio" name="q7_overall_recommendation" value="Strongly support"><span class="opt-dot"></span>✅&nbsp; Strongly support</label>
@@ -598,12 +605,11 @@
       <div class="privacy-note">
         Your response is <strong>anonymous</strong>. A session token and general browser info are logged alongside your answers to help distinguish responses — no personal identifying data is collected beyond what you write above.
       </div>
-      <!-- ── use this when configuring email submit in place of line below <button type="submit" class="submit-btn"> ── -->
       <button type="button" class="submit-btn" onclick="handleSubmit()">
         &#9658;&nbsp; Submit Feedback
       </button>
       <div id="submitError" style="color:#f08080; font-size:.8rem; display:none;">
-        Please answer all required questions (marked *) before submitting.
+        Please answer all questions before submitting.
       </div>
     </div>
 
@@ -622,11 +628,9 @@
 <script>
   // ── METADATA ────────────────────────────────────────────────────────
   (function() {
-    // Date/time of submission (set now, updated again on submit)
     const now = new Date();
     document.getElementById('field_datetime').value = now.toISOString().replace('T',' ').slice(0,19) + ' UTC';
 
-    // Simple browser fingerprint (NOT a tracking cookie — purely for deduplication)
     const fp = [
       navigator.userAgent,
       screen.width + 'x' + screen.height,
@@ -636,7 +640,6 @@
       navigator.hardwareConcurrency || '?',
       navigator.platform || '?'
     ].join('||');
-    // Hash the fingerprint using djb2
     let hash = 5381;
     for (let i = 0; i < fp.length; i++) {
       hash = ((hash << 5) + hash) + fp.charCodeAt(i);
@@ -645,7 +648,6 @@
     const fpHex = (hash >>> 0).toString(16).toUpperCase().padStart(8,'0');
     document.getElementById('field_fingerprint').value = 'FP-' + fpHex;
 
-    // Session UUID (new UUID each browser session; persists while tab open)
     let sid = sessionStorage.getItem('pembroke_sid');
     if (!sid) {
       sid = 'SID-' + Date.now().toString(36).toUpperCase() + '-' +
@@ -653,8 +655,6 @@
       sessionStorage.setItem('pembroke_sid', sid);
     }
     document.getElementById('field_session').value = sid;
-
-    // User agent & screen
     document.getElementById('field_ua').value = navigator.userAgent;
     document.getElementById('field_screen').value = screen.width + 'x' + screen.height + ' @' + screen.colorDepth + 'bit';
     document.getElementById('field_tz').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -668,7 +668,6 @@
         labels.forEach(l => l.classList.remove('selected'));
         e.target.closest('.opt-label')?.classList.add('selected');
         updateProgress();
-        // Clear validation on change
         const card = list.closest('.q-card');
         if (card) card.classList.remove('invalid');
       }
@@ -683,8 +682,15 @@
     });
   });
 
-  // ── TEXTAREA PROGRESS ───────────────────────────────────────────────
-  document.getElementById('q6text').addEventListener('input', updateProgress);
+  // ── TEXTAREA PROGRESS & VALIDATION CLEAR ───────────────────────────
+  document.getElementById('q6text').addEventListener('input', () => {
+    updateProgress();
+    document.getElementById('q6card').classList.remove('invalid');
+  });
+  document.getElementById('q_layouttext').addEventListener('input', () => {
+    updateProgress();
+    document.getElementById('q_layoutcard').classList.remove('invalid');
+  });
 
   // ── HINT CHIPS ──────────────────────────────────────────────────────
   document.querySelectorAll('.hint-chip').forEach(chip => {
@@ -696,28 +702,38 @@
         : hint;
       ta.focus();
       updateProgress();
+      document.getElementById('q6card').classList.remove('invalid');
     });
   });
 
   // ── PROGRESS ────────────────────────────────────────────────────────
-  const REQUIRED = ['q1_first_impression','q7_overall_recommendation'];
+  // All 8 questions are required: 6 radio groups + 2 textareas
+  const REQUIRED_RADIOS = [
+    'q1_first_impression',
+    'q2_space_capacity',
+    'q3_collaboration',
+    'q4_focus_work',
+    'q5_temperature',
+    'q7_overall_recommendation'
+  ];
+  const TOTAL_QUESTIONS = 8;
 
   function countAnswered() {
     let n = 0;
-    REQUIRED.forEach(name => {
+    REQUIRED_RADIOS.forEach(name => {
       if (document.querySelector(`input[name="${name}"]:checked`)) n++;
     });
-    // Q6 optional — still count it if filled
-    const q6 = document.getElementById('q6text').value.trim();
-    return { required: n, total: n + (q6 ? 1 : 0) };
+    if (document.getElementById('q6text').value.trim()) n++;
+    if (document.getElementById('q_layouttext').value.trim()) n++;
+    return n;
   }
 
   function updateProgress() {
-    const { required } = countAnswered();
-    const pct = Math.round((required / REQUIRED.length) * 100);
+    const answered = countAnswered();
+    const pct = Math.round((answered / TOTAL_QUESTIONS) * 100);
     document.getElementById('progressFill').style.width = pct + '%';
     document.getElementById('progressLabel').textContent =
-      `${required} of ${REQUIRED.length} required questions answered (questions 2–6 are optional)`;
+      `${answered} of ${TOTAL_QUESTIONS} questions answered`;
   }
 
   // ── VALIDATION & SUBMIT ─────────────────────────────────────────────
@@ -725,22 +741,36 @@
     let valid = true;
     const errEl = document.getElementById('submitError');
 
-    // Check all required radio groups
-    const requiredMap = {
+    // Required radio groups → card ID map
+    const requiredRadios = {
       q1_first_impression:       'q1card',
+      q2_space_capacity:         'q2card',
+      q3_collaboration:          'q3card',
+      q4_focus_work:             'q4card',
+      q5_temperature:            'q5card',
       q7_overall_recommendation: 'q7card'
     };
 
-    Object.entries(requiredMap).forEach(([name, cardId]) => {
+    Object.entries(requiredRadios).forEach(([name, cardId]) => {
       const answered = document.querySelector(`input[name="${name}"]:checked`);
       const card = document.getElementById(cardId);
       if (!answered) { card.classList.add('invalid'); valid = false; }
       else { card.classList.remove('invalid'); }
     });
 
+    // Required textareas
+    const q6val = document.getElementById('q6text').value.trim();
+    const q6card = document.getElementById('q6card');
+    if (!q6val) { q6card.classList.add('invalid'); valid = false; }
+    else { q6card.classList.remove('invalid'); }
+
+    const layoutVal = document.getElementById('q_layouttext').value.trim();
+    const layoutCard = document.getElementById('q_layoutcard');
+    if (!layoutVal) { layoutCard.classList.add('invalid'); valid = false; }
+    else { layoutCard.classList.remove('invalid'); }
+
     if (!valid) {
       errEl.style.display = 'block';
-      // Scroll to first invalid
       const first = document.querySelector('.q-card.invalid');
       if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
@@ -754,22 +784,18 @@
       now.toLocaleDateString('en-AU', {weekday:'short', year:'numeric', month:'short', day:'numeric'}) +
       ' ' + now.toLocaleTimeString('en-AU') + ' (local) | ' + now.toISOString() + ' (UTC)';
 
-    // Submit via FormSubmit
     const form = document.getElementById('surveyForm');
 
-    // Show success immediately (FormSubmit handles email in background)
     form.style.display = 'none';
     document.getElementById('successPanel').classList.add('visible');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Submit in background using fetch (prevents page redirect)
     const data = new FormData(form);
     fetch(form.action, {
       method: 'POST',
       body: data,
       headers: { 'Accept': 'application/json' }
     }).catch(() => {
-      // Silent fail — success screen already shown
       console.warn('FormSubmit delivery issue — check FormSubmit dashboard.');
     });
   }
@@ -781,7 +807,7 @@
   ════════════════════════════════════════════════════════════════════
 
   CURRENT: Uses FormSubmit.co (https://formsubmit.co/) for email delivery.
-  To change form submission replace string 144c7b0e39d865d567a22ba4fac09381 with another email address.  Follow activation procedure
+  To change form submission replace string 144c7b0e39d865d567a22ba4fac09381 with another email address. Follow activation procedure.
   After clicking the activation link, all future submissions go straight to that inbox.
 
   EMAIL INCLUDES AUTOMATICALLY:
@@ -792,25 +818,15 @@
   ─ User agent, screen info, timezone
   ─ Submitter IP address (added by FormSubmit's servers)
 
-  UNIQUENESS / DEDUPLICATION APPROACH:
-  ─ IP Address       → logged server-side by FormSubmit
-  ─ Browser FP       → djb2 hash of UA + screen + timezone + language + CPU cores
-  ─ Session ID       → random UUID stored in sessionStorage (new each browser session)
-  ─ Combine FP + SID to flag likely duplicate responses in your inbox
-
   TO UPGRADE TO DATABASE:
   1. Replace the fetch() call target with your own API endpoint
-  2. Your endpoint receives a JSON body (convert FormData to JSON first):
+  2. Convert FormData to JSON:
        const json = Object.fromEntries(data.entries());
        fetch('/api/survey', { method:'POST', body: JSON.stringify(json),
                               headers: {'Content-Type':'application/json'} });
-  3. Log server-side: timestamp, IP (from request headers), all fields
-  4. Optionally add a unique DB column for fingerprint+session to flag dupes
 
   ════════════════════════════════════════════════════════════════════
 -->
 
 </body>
 </html>
-
-

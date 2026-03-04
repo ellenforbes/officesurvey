@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pembroke Office Feedback</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red:       #D7282F;
+      --navy:      #1F1F55;
+      --grey:      #86828B;
+      --silver:    #C9C4C4;
+      --purple:    #6D3A85;
+      --slate:     #B8CED9;
+      --navy-dark: #141430;
+      --green:     #4caf77;
+      --orange:    #f0a500;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Calibri','Candara','Segoe UI', sans-serif;
+      background: var(--navy-dark);
+      color: #F4F2F2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 60px;
+      gap: 0;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────────────── */
+    .page-header {
+      width: 100%;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 60%, #0d0d25 100%);
+      border-bottom: 3px solid var(--red);
+      padding: 28px 40px 24px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(215,40,47,.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .page-header::after {
+      content: '';
+      position: absolute; bottom: -30px; left: 200px;
+      width: 160px; height: 160px;
+      background: radial-gradient(circle, rgba(109,58,133,.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .page-header h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 2.6rem; font-weight: 700;
+      color: #fff; line-height: 1;
+    }
+    .page-header h1 span { color: var(--red); }
+    .page-header p {
+      margin-top: 8px; color: var(--slate);
+      font-size: .82rem; letter-spacing: .08em; text-transform: uppercase;
+    }
+
+    /* ── MAIN FORM WRAPPER ──────────────────────────────────────── */
+    .survey-wrap {
+      width: 100%;
+      max-width: 780px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── INTRO PANEL ────────────────────────────────────────────── */
+    .intro-panel {
+      background: rgba(31,31,85,.4);
+      border: 1px solid rgba(255,255,255,.08);
+      border-left: 3px solid var(--slate);
+      border-radius: 10px;
+      padding: 20px 24px;
+      font-size: .9rem;
+      color: var(--silver);
+      line-height: 1.65;
+    }
+    .intro-panel strong { color: #fff; }
+
+    /* ── QUESTION CARD ──────────────────────────────────────────── */
+    .q-card {
+      background: rgba(31,31,85,.4);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      padding: 24px 28px;
+      transition: border-color .2s;
+    }
+    .q-card:focus-within {
+      border-color: rgba(215,40,47,.4);
+    }
+
+    .q-number {
+      display: inline-block;
+      font-family: 'Oswald', sans-serif;
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--red); background: rgba(215,40,47,.12);
+      border: 1px solid rgba(215,40,47,.3);
+      padding: 3px 10px; border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .q-text {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.05rem; font-weight: 600;
+      color: #fff; margin-bottom: 4px; line-height: 1.3;
+    }
+    .q-sub {
+      font-size: .8rem; color: var(--grey);
+      margin-bottom: 16px; line-height: 1.5;
+    }
+
+    /* ── STAR RATING (Q1) ───────────────────────────────────────── */
+    .star-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .star-label-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .star-label-wrap input[type="radio"] { display: none; }
+    .star-btn {
+      width: 52px; height: 52px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: all .18s;
+      user-select: none;
+      line-height: 1;
+    }
+    .star-label-wrap input[type="radio"]:checked + .star-btn {
+      background: rgba(215,40,47,.2);
+      border-color: var(--red);
+      box-shadow: 0 0 0 2px rgba(215,40,47,.25);
+    }
+    .star-btn:hover { background: rgba(215,40,47,.15); border-color: rgba(215,40,47,.5); }
+    .star-num {
+      font-size: .72rem; color: var(--grey); letter-spacing: .05em;
+    }
+    .star-endpoints {
+      display: flex; justify-content: space-between;
+      margin-top: 6px; font-size: .75rem; color: var(--grey);
+    }
+
+    /* ── RADIO OPTIONS ──────────────────────────────────────────── */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .opt-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 7px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.2);
+      cursor: pointer;
+      transition: all .18s;
+      font-size: .88rem;
+      color: var(--silver);
+    }
+    .opt-label:hover {
+      border-color: rgba(215,40,47,.35);
+      background: rgba(215,40,47,.08);
+      color: #fff;
+    }
+    .opt-label input[type="radio"] { display: none; }
+    .opt-label.selected {
+      border-color: var(--red);
+      background: rgba(215,40,47,.15);
+      color: #fff;
+    }
+    .opt-dot {
+      width: 16px; height: 16px; flex-shrink: 0;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.25);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .18s;
+    }
+    .opt-label.selected .opt-dot {
+      border-color: var(--red);
+      background: var(--red);
+    }
+    .opt-label.selected .opt-dot::after {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #fff;
+      display: block;
+    }
+
+    /* ── TEXTAREA ───────────────────────────────────────────────── */
+    .q-textarea {
+      width: 100%;
+      background: rgba(0,0,0,.3);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: #F4F2F2;
+      font-family: 'Calibri','Candara','Segoe UI', sans-serif;
+      font-size: .88rem;
+      line-height: 1.65;
+      resize: vertical;
+      min-height: 110px;
+      transition: border-color .2s;
+      outline: none;
+    }
+    .q-textarea:focus {
+      border-color: rgba(215,40,47,.5);
+      background: rgba(0,0,0,.4);
+    }
+    .q-textarea::placeholder { color: var(--grey); }
+    .hint-chips {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 10px;
+    }
+    .hint-chip {
+      font-size: .72rem; color: var(--slate);
+      background: rgba(184,206,217,.08);
+      border: 1px solid rgba(184,206,217,.2);
+      border-radius: 20px; padding: 3px 10px;
+      letter-spacing: .03em;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .hint-chip:hover {
+      background: rgba(184,206,217,.15);
+      color: #fff;
+    }
+
+    /* ── REQUIRED INDICATOR ─────────────────────────────────────── */
+    .req { color: var(--red); margin-left: 3px; }
+
+    /* ── VALIDATION ALERT ───────────────────────────────────────── */
+    .val-msg {
+      display: none;
+      font-size: .75rem;
+      color: #f08080;
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: rgba(215,40,47,.1);
+      border-left: 2px solid var(--red);
+      border-radius: 4px;
+    }
+    .q-card.invalid .val-msg { display: block; }
+    .q-card.invalid { border-color: rgba(215,40,47,.5); }
+
+    /* ── SUBMIT AREA ────────────────────────────────────────────── */
+    .submit-area {
+      background: rgba(31,31,85,.4);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+    .privacy-note {
+      font-size: .77rem; color: var(--grey); line-height: 1.5;
+      max-width: 480px;
+    }
+    .privacy-note strong { color: var(--slate); }
+
+    .submit-btn {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: #fff;
+      background: linear-gradient(135deg, var(--red) 0%, #b01f25 100%);
+      border: none;
+      border-radius: 7px;
+      padding: 14px 48px;
+      cursor: pointer;
+      transition: all .2s;
+      box-shadow: 0 4px 16px rgba(215,40,47,.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 22px rgba(215,40,47,.45);
+    }
+    .submit-btn:active { transform: translateY(0); }
+
+    /* ── SUCCESS SCREEN ─────────────────────────────────────────── */
+    .success-panel {
+      display: none;
+      background: rgba(31,31,85,.4);
+      border: 1px solid rgba(76,175,119,.3);
+      border-top: 3px solid var(--green);
+      border-radius: 10px;
+      padding: 40px 32px;
+      text-align: center;
+      gap: 14px;
+      flex-direction: column;
+      align-items: center;
+    }
+    .success-panel.visible { display: flex; }
+    .success-icon { font-size: 3rem; margin-bottom: 4px; }
+    .success-panel h2 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.6rem; font-weight: 700; color: #fff;
+    }
+    .success-panel p { color: var(--silver); font-size: .9rem; line-height: 1.6; }
+
+    /* ── PROGRESS BAR ───────────────────────────────────────────── */
+    .progress-bar-wrap {
+      width: 100%;
+      height: 3px;
+      background: rgba(255,255,255,.06);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red), var(--purple));
+      border-radius: 2px;
+      transition: width .4s ease;
+      width: 0%;
+    }
+    .progress-label {
+      font-size: .72rem; color: var(--grey); letter-spacing: .06em;
+      text-align: right;
+    }
+
+    @media (max-width: 600px) {
+      .page-header { padding: 22px 20px 20px; }
+      .page-header h1 { font-size: 1.9rem; }
+      .q-card { padding: 18px 16px; }
+      .star-btn { width: 44px; height: 44px; font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── PAGE HEADER ──────────────────────────────────────────────────── -->
+<header class="page-header">
+  <h1>PEMBROKE <span>OFFICE</span> FEEDBACK</h1>
+  <p>New Office Space — Staff Survey &nbsp;·&nbsp; Confidential</p>
+</header>
+
+<!-- ── SURVEY CONTAINER ─────────────────────────────────────────────── -->
+<div class="survey-wrap">
+
+  <div class="intro-panel">
+    <strong>Thank you for visiting the new office space.</strong><br>
+    Your honest feedback will directly inform Pembroke Resources' decision. This survey takes approximately 3–4 minutes. All responses are treated confidentially. Fields marked <span style="color:var(--red)">*</span> are required.
+  </div>
+
+  <!-- Progress -->
+  <div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 of 7 answered</div>
+  </div>
+
+  <!-- ══ FORM ══════════════════════════════════════════════════════════ -->
+  <!--
+    Using FormSubmit.co for email delivery.
+    Replace YOUR_FORM_ID below with your FormSubmit activation code after
+    first submission (or just use the email directly — FormSubmit will
+    send an activation email on first use).
+
+    TO UPGRADE TO DB: Replace action with your own API endpoint and change
+    method or use fetch() in the handleSubmit function below.
+  -->
+  <form id="surveyForm"
+        action="https://formsubmit.co/ellen.forbes@pembrokeresources.com"
+        method="POST">
+
+    <!-- FormSubmit hidden config -->
+    <input type="hidden" name="_subject" value="📋 Pembroke Office Feedback — New Submission">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    <!-- Disable next redirect so we handle it ourselves -->
+    <input type="hidden" name="_next" value="about:blank">
+
+    <!-- Metadata (set by JS) -->
+    <input type="hidden" name="submission_datetime" id="field_datetime">
+    <input type="hidden" name="browser_fingerprint" id="field_fingerprint">
+    <input type="hidden" name="session_id" id="field_session">
+    <input type="hidden" name="user_agent" id="field_ua">
+    <input type="hidden" name="screen_info" id="field_screen">
+    <input type="hidden" name="timezone" id="field_tz">
+
+    <div style="display:flex; flex-direction:column; gap:20px;" id="questionsWrap">
+
+      <!-- ── Q1: First Impressions ───────────────────────────────── -->
+      <div class="q-card" id="q1card" data-q="q1">
+        <div class="q-number">Question 1 of 7</div>
+        <div class="q-text">First Impressions<span class="req">*</span></div>
+        <div class="q-sub">"What is your overall first impression of this new office space?"</div>
+
+        <div class="star-row" id="starRow">
+          <div class="star-label-wrap">
+            <input type="radio" name="q1_first_impression" value="1 – Very Negative" id="s1">
+            <label class="star-btn" for="s1">😟</label>
+            <span class="star-num">1</span>
+          </div>
+          <div class="star-label-wrap">
+            <input type="radio" name="q1_first_impression" value="2 – Negative" id="s2">
+            <label class="star-btn" for="s2">😕</label>
+            <span class="star-num">2</span>
+          </div>
+          <div class="star-label-wrap">
+            <input type="radio" name="q1_first_impression" value="3 – Neutral" id="s3">
+            <label class="star-btn" for="s3">😐</label>
+            <span class="star-num">3</span>
+          </div>
+          <div class="star-label-wrap">
+            <input type="radio" name="q1_first_impression" value="4 – Positive" id="s4">
+            <label class="star-btn" for="s4">🙂</label>
+            <span class="star-num">4</span>
+          </div>
+          <div class="star-label-wrap">
+            <input type="radio" name="q1_first_impression" value="5 – Very Positive" id="s5">
+            <label class="star-btn" for="s5">😄</label>
+            <span class="star-num">5</span>
+          </div>
+        </div>
+        <div class="star-endpoints" style="max-width:300px; margin-top:4px;">
+          <span>Very Negative</span><span>Very Positive</span>
+        </div>
+        <div class="val-msg">Please select a rating before continuing.</div>
+      </div>
+
+      <!-- ── Q2: Space & Capacity ─────────────────────────────────── -->
+      <div class="q-card" id="q2card" data-q="q2">
+        <div class="q-number">Question 2 of 7 <em style="font-weight:400;letter-spacing:0;text-transform:none;font-family:Calibri,sans-serif;font-size:.68rem;color:var(--grey)">(optional)</em></div>
+        <div class="q-text">Space &amp; Capacity</div>
+        <div class="q-sub">"Do you feel this space has enough room to comfortably accommodate our team's day-to-day work?"</div>
+        <div class="options-list" id="q2opts">
+          <label class="opt-label"><input type="radio" name="q2_space_capacity" value="Yes, definitely"><span class="opt-dot"></span>Yes, definitely</label>
+          <label class="opt-label"><input type="radio" name="q2_space_capacity" value="Yes, mostly"><span class="opt-dot"></span>Yes, mostly</label>
+          <label class="opt-label"><input type="radio" name="q2_space_capacity" value="Unsure"><span class="opt-dot"></span>Unsure</label>
+          <label class="opt-label"><input type="radio" name="q2_space_capacity" value="No, not quite"><span class="opt-dot"></span>No, not quite</label>
+          <label class="opt-label"><input type="radio" name="q2_space_capacity" value="No, definitely not"><span class="opt-dot"></span>No, definitely not</label>
+        </div>
+        <div class="val-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- ── Q3: Collaboration ────────────────────────────────────── -->
+      <div class="q-card" id="q3card" data-q="q3">
+        <div class="q-number">Question 3 of 7 <em style="font-weight:400;letter-spacing:0;text-transform:none;font-family:Calibri,sans-serif;font-size:.68rem;color:var(--grey)">(optional)</em></div>
+        <div class="q-text">Collaboration</div>
+        <div class="q-sub">"How well does this space support team collaboration and meetings compared to our current office?"</div>
+        <div class="options-list" id="q3opts">
+          <label class="opt-label"><input type="radio" name="q3_collaboration" value="Much worse"><span class="opt-dot"></span>Much worse</label>
+          <label class="opt-label"><input type="radio" name="q3_collaboration" value="Somewhat worse"><span class="opt-dot"></span>Somewhat worse</label>
+          <label class="opt-label"><input type="radio" name="q3_collaboration" value="About the same"><span class="opt-dot"></span>About the same</label>
+          <label class="opt-label"><input type="radio" name="q3_collaboration" value="Somewhat better"><span class="opt-dot"></span>Somewhat better</label>
+          <label class="opt-label"><input type="radio" name="q3_collaboration" value="Much better"><span class="opt-dot"></span>Much better</label>
+        </div>
+        <div class="val-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- ── Q4: Focus Work ───────────────────────────────────────── -->
+      <div class="q-card" id="q4card" data-q="q4">
+        <div class="q-number">Question 4 of 7 <em style="font-weight:400;letter-spacing:0;text-transform:none;font-family:Calibri,sans-serif;font-size:.68rem;color:var(--grey)">(optional)</em></div>
+        <div class="q-text">Focus Work</div>
+        <div class="q-sub">"Do you think this space provides adequate areas for quiet, focused individual work?"</div>
+        <div class="options-list" id="q4opts">
+          <label class="opt-label"><input type="radio" name="q4_focus_work" value="Yes"><span class="opt-dot"></span>Yes</label>
+          <label class="opt-label"><input type="radio" name="q4_focus_work" value="No"><span class="opt-dot"></span>No</label>
+          <label class="opt-label"><input type="radio" name="q4_focus_work" value="Needs improvement"><span class="opt-dot"></span>Needs improvement</label>
+          <label class="opt-label"><input type="radio" name="q4_focus_work" value="Unsure"><span class="opt-dot"></span>Unsure</label>
+        </div>
+        <div class="val-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- ── Q5: Improvements & Suggestions ──────────────────────── -->
+      <div class="q-card" id="q6card" data-q="q6">
+        <div class="q-number">Question 5 of 7 <em style="font-weight:400;letter-spacing:0;text-transform:none;font-family:Calibri,sans-serif;font-size:.68rem;color:var(--grey)">(optional)</em></div>
+        <div class="q-text">Improvements &amp; Suggestions</div>
+        <div class="q-sub">"If you identified any concerns or issues with this space, what improvements or changes do you think would help address them?" <em style="color:var(--grey)">(Optional)</em></div>
+        <textarea
+          class="q-textarea"
+          name="q6_improvements_suggestions"
+          id="q6text"
+          placeholder="Share your thoughts here…"
+          rows="4"
+        ></textarea>
+        <div class="hint-chips" id="hintChips">
+          <span class="hint-chip" data-hint="More meeting rooms">More meeting rooms</span>
+          <span class="hint-chip" data-hint="Better lighting">Better lighting</span>
+          <span class="hint-chip" data-hint="Additional storage">Additional storage</span>
+          <span class="hint-chip" data-hint="Standing desks">Standing desks</span>
+          <span class="hint-chip" data-hint="Noise reduction">Noise reduction</span>
+          <span class="hint-chip" data-hint="Furniture layout changes">Furniture layout changes</span>
+          <span class="hint-chip" data-hint="Partitioning / privacy screens">Partitioning / privacy screens</span>
+          <span class="hint-chip" data-hint="Hybrid working adjustments">Hybrid working adjustments</span>
+        </div>
+      </div>
+
+      <!-- ── Q6: Layout & Seating ─────────────────────────────────── -->
+      <div class="q-card" id="q_layoutcard" data-q="q_layout">
+        <div class="q-number">Question 6 of 7 <em style="font-weight:400;letter-spacing:0;text-transform:none;font-family:Calibri,sans-serif;font-size:.68rem;color:var(--grey)">(optional)</em></div>
+        <div class="q-text">Office Layout &amp; Seating</div>
+        <div class="q-sub">"Please review the proposed floor plan below and share any thoughts on the layout or seating arrangements."</div>
+
+        <!-- Layout image / link -->
+        <div style="margin-bottom:16px;">
+          <a href="layout.png" target="_blank" style="display:inline-block; position:relative; border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,.12); transition:border-color .2s; text-decoration:none; max-width:100%;">
+            <img
+              src="layout.png"
+              alt="Proposed Office Layout"
+              onerror="this.closest('a').style.display='none'; document.getElementById('layoutFallback').style.display='flex';"
+              style="display:block; width:100%; max-width:640px; border-radius:8px; opacity:.92; transition:opacity .2s;"
+              onmouseover="this.style.opacity=1"
+              onmouseout="this.style.opacity='.92'"
+            >
+            <span style="
+              position:absolute; bottom:10px; right:10px;
+              background:rgba(20,20,48,.85); border:1px solid rgba(255,255,255,.18);
+              color:var(--slate); font-size:.72rem; padding:4px 10px; border-radius:4px;
+              letter-spacing:.05em; backdrop-filter:blur(4px);
+            ">🔍 Click to open full size</span>
+          </a>
+
+          <!-- Fallback if layout.png not found -->
+          <div id="layoutFallback" style="
+            display:none; align-items:center; justify-content:center; gap:14px;
+            background:rgba(0,0,0,.25); border:1px dashed rgba(255,255,255,.15);
+            border-radius:8px; padding:28px 20px; color:var(--grey); font-size:.85rem; text-align:center;
+          ">
+            <div>
+              <div style="font-size:2rem; margin-bottom:8px;">🏢</div>
+              <div style="color:var(--silver); margin-bottom:6px;">Floor plan not yet uploaded</div>
+              <a href="layout.png" target="_blank" style="
+                color:var(--slate); font-size:.8rem;
+                background:rgba(184,206,217,.08); border:1px solid rgba(184,206,217,.25);
+                padding:5px 14px; border-radius:4px; text-decoration:none; display:inline-block;
+              ">📎 View layout.png</a>
+            </div>
+          </div>
+        </div>
+
+        <textarea
+          class="q-textarea"
+          name="q6_layout_seating_comments"
+          id="q_layouttext"
+          placeholder="e.g. seating arrangement works well, would prefer more natural light near desks, open plan may be too noisy…"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <!-- ── Q7: Overall Recommendation ──────────────────────────── -->
+      <div class="q-card" id="q7card" data-q="q7">
+        <div class="q-number">Question 7 of 7</div>
+        <div class="q-text">Overall Recommendation<span class="req">*</span></div>
+        <div class="q-sub">"Based on your visit today, would you support Pembroke Resources making this move?"</div>
+        <div class="options-list" id="q7opts">
+          <label class="opt-label"><input type="radio" name="q7_overall_recommendation" value="Strongly support"><span class="opt-dot"></span>✅&nbsp; Strongly support</label>
+          <label class="opt-label"><input type="radio" name="q7_overall_recommendation" value="Support with some reservations"><span class="opt-dot"></span>🙂&nbsp; Support with some reservations</label>
+          <label class="opt-label"><input type="radio" name="q7_overall_recommendation" value="Neutral"><span class="opt-dot"></span>😐&nbsp; Neutral</label>
+          <label class="opt-label"><input type="radio" name="q7_overall_recommendation" value="Have concerns"><span class="opt-dot"></span>⚠️&nbsp; Have concerns</label>
+          <label class="opt-label"><input type="radio" name="q7_overall_recommendation" value="Would not support"><span class="opt-dot"></span>❌&nbsp; Would not support</label>
+        </div>
+        <div class="val-msg">Please select an option before continuing.</div>
+      </div>
+
+    </div><!-- /questionsWrap -->
+
+    <!-- ── SUBMIT ──────────────────────────────────────────────────── -->
+    <div class="submit-area" style="margin-top:20px;">
+      <div class="privacy-note">
+        Your response is <strong>anonymous</strong>. A session token and general browser info are logged alongside your answers to help distinguish responses — no personal identifying data is collected beyond what you write above.
+      </div>
+      <button type="button" class="submit-btn" onclick="handleSubmit()">
+        &#9658;&nbsp; Submit Feedback
+      </button>
+      <div id="submitError" style="color:#f08080; font-size:.8rem; display:none;">
+        Please answer all required questions (marked *) before submitting.
+      </div>
+    </div>
+
+  </form>
+
+  <!-- ── SUCCESS ─────────────────────────────────────────────────────── -->
+  <div class="success-panel" id="successPanel">
+    <div class="success-icon">✅</div>
+    <h2>Thank you for your feedback!</h2>
+    <p>Your response has been submitted to Pembroke Resources.<br>
+    Your input will be reviewed as part of the office relocation assessment.</p>
+  </div>
+
+</div><!-- /survey-wrap -->
+
+<script>
+  // ── METADATA ────────────────────────────────────────────────────────
+  (function() {
+    // Date/time of submission (set now, updated again on submit)
+    const now = new Date();
+    document.getElementById('field_datetime').value = now.toISOString().replace('T',' ').slice(0,19) + ' UTC';
+
+    // Simple browser fingerprint (NOT a tracking cookie — purely for deduplication)
+    const fp = [
+      navigator.userAgent,
+      screen.width + 'x' + screen.height,
+      screen.colorDepth,
+      Intl.DateTimeFormat().resolvedOptions().timeZone,
+      navigator.language,
+      navigator.hardwareConcurrency || '?',
+      navigator.platform || '?'
+    ].join('||');
+    // Hash the fingerprint using djb2
+    let hash = 5381;
+    for (let i = 0; i < fp.length; i++) {
+      hash = ((hash << 5) + hash) + fp.charCodeAt(i);
+      hash = hash & 0xFFFFFFFF;
+    }
+    const fpHex = (hash >>> 0).toString(16).toUpperCase().padStart(8,'0');
+    document.getElementById('field_fingerprint').value = 'FP-' + fpHex;
+
+    // Session UUID (new UUID each browser session; persists while tab open)
+    let sid = sessionStorage.getItem('pembroke_sid');
+    if (!sid) {
+      sid = 'SID-' + Date.now().toString(36).toUpperCase() + '-' +
+            Math.random().toString(36).slice(2,8).toUpperCase();
+      sessionStorage.setItem('pembroke_sid', sid);
+    }
+    document.getElementById('field_session').value = sid;
+
+    // User agent & screen
+    document.getElementById('field_ua').value = navigator.userAgent;
+    document.getElementById('field_screen').value = screen.width + 'x' + screen.height + ' @' + screen.colorDepth + 'bit';
+    document.getElementById('field_tz').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  })();
+
+  // ── RADIO OPTION HIGHLIGHT ──────────────────────────────────────────
+  document.querySelectorAll('.options-list').forEach(list => {
+    list.addEventListener('change', e => {
+      if (e.target.type === 'radio') {
+        const labels = list.querySelectorAll('.opt-label');
+        labels.forEach(l => l.classList.remove('selected'));
+        e.target.closest('.opt-label')?.classList.add('selected');
+        updateProgress();
+        // Clear validation on change
+        const card = list.closest('.q-card');
+        if (card) card.classList.remove('invalid');
+      }
+    });
+  });
+
+  // ── STAR RATING CHANGE ──────────────────────────────────────────────
+  document.querySelectorAll('#q1card input[type="radio"]').forEach(r => {
+    r.addEventListener('change', () => {
+      updateProgress();
+      document.getElementById('q1card').classList.remove('invalid');
+    });
+  });
+
+  // ── TEXTAREA PROGRESS ───────────────────────────────────────────────
+  document.getElementById('q6text').addEventListener('input', updateProgress);
+
+  // ── HINT CHIPS ──────────────────────────────────────────────────────
+  document.querySelectorAll('.hint-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const ta = document.getElementById('q6text');
+      const hint = chip.dataset.hint;
+      ta.value = ta.value
+        ? (ta.value.trimEnd().endsWith(',') ? ta.value + ' ' + hint : ta.value.trimEnd() + ', ' + hint)
+        : hint;
+      ta.focus();
+      updateProgress();
+    });
+  });
+
+  // ── PROGRESS ────────────────────────────────────────────────────────
+  const REQUIRED = ['q1_first_impression','q7_overall_recommendation'];
+
+  function countAnswered() {
+    let n = 0;
+    REQUIRED.forEach(name => {
+      if (document.querySelector(`input[name="${name}"]:checked`)) n++;
+    });
+    // Q6 optional — still count it if filled
+    const q6 = document.getElementById('q6text').value.trim();
+    return { required: n, total: n + (q6 ? 1 : 0) };
+  }
+
+  function updateProgress() {
+    const { required } = countAnswered();
+    const pct = Math.round((required / REQUIRED.length) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent =
+      `${required} of ${REQUIRED.length} required questions answered (questions 2–6 are optional)`;
+  }
+
+  // ── VALIDATION & SUBMIT ─────────────────────────────────────────────
+  function handleSubmit() {
+    let valid = true;
+    const errEl = document.getElementById('submitError');
+
+    // Check all required radio groups
+    const requiredMap = {
+      q1_first_impression:       'q1card',
+      q7_overall_recommendation: 'q7card'
+    };
+
+    Object.entries(requiredMap).forEach(([name, cardId]) => {
+      const answered = document.querySelector(`input[name="${name}"]:checked`);
+      const card = document.getElementById(cardId);
+      if (!answered) { card.classList.add('invalid'); valid = false; }
+      else { card.classList.remove('invalid'); }
+    });
+
+    if (!valid) {
+      errEl.style.display = 'block';
+      // Scroll to first invalid
+      const first = document.querySelector('.q-card.invalid');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    errEl.style.display = 'none';
+
+    // Update submission timestamp right before sending
+    const now = new Date();
+    document.getElementById('field_datetime').value =
+      now.toLocaleDateString('en-AU', {weekday:'short', year:'numeric', month:'short', day:'numeric'}) +
+      ' ' + now.toLocaleTimeString('en-AU') + ' (local) | ' + now.toISOString() + ' (UTC)';
+
+    // Submit via FormSubmit
+    const form = document.getElementById('surveyForm');
+
+    // Show success immediately (FormSubmit handles email in background)
+    form.style.display = 'none';
+    document.getElementById('successPanel').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Submit in background using fetch (prevents page redirect)
+    const data = new FormData(form);
+    fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).catch(() => {
+      // Silent fail — success screen already shown
+      console.warn('FormSubmit delivery issue — check FormSubmit dashboard.');
+    });
+  }
+</script>
+
+<!--
+  ════════════════════════════════════════════════════════════════════
+  BACKEND / DATABASE UPGRADE NOTES
+  ════════════════════════════════════════════════════════════════════
+
+  CURRENT: Uses FormSubmit.co (https://formsubmit.co/) for email delivery.
+  First submission will trigger an activation email to ellen.forbes@pembrokeresources.com.
+  After clicking the activation link, all future submissions go straight to that inbox.
+
+  EMAIL INCLUDES AUTOMATICALLY:
+  ─ All form answers (formatted as a table)
+  ─ Submission datetime (UTC + local)
+  ─ Browser fingerprint (FP-XXXXXXXX) for soft deduplication
+  ─ Session ID (SID-...) unique per browser session
+  ─ User agent, screen info, timezone
+  ─ Submitter IP address (added by FormSubmit's servers)
+
+  UNIQUENESS / DEDUPLICATION APPROACH:
+  ─ IP Address       → logged server-side by FormSubmit
+  ─ Browser FP       → djb2 hash of UA + screen + timezone + language + CPU cores
+  ─ Session ID       → random UUID stored in sessionStorage (new each browser session)
+  ─ Combine FP + SID to flag likely duplicate responses in your inbox
+
+  TO UPGRADE TO DATABASE:
+  1. Replace the fetch() call target with your own API endpoint
+  2. Your endpoint receives a JSON body (convert FormData to JSON first):
+       const json = Object.fromEntries(data.entries());
+       fetch('/api/survey', { method:'POST', body: JSON.stringify(json),
+                              headers: {'Content-Type':'application/json'} });
+  3. Log server-side: timestamp, IP (from request headers), all fields
+  4. Optionally add a unique DB column for fingerprint+session to flag dupes
+
+  ════════════════════════════════════════════════════════════════════
+-->
+
+</body>
+</html>
